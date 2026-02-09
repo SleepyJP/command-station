@@ -1,26 +1,122 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ob-primary: #00aff0;
+  --ob-primary-dark: #018cf1;
+  --ob-bg: #0a0a14;
+  --ob-card: #0d0d1a;
+  --ob-card-border: #1e1e35;
+  --ob-card-hover: #141420;
+  --ob-text: #ffffff;
+  --ob-text-muted: #888888;
+  --ob-text-light: #555555;
+  --ob-surface: #141420;
+  --ob-success: #00d97e;
+  --ob-warning: #ff9800;
+  --ob-danger: #f44336;
+  --ob-standby: #888888;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--ob-bg);
+  --color-foreground: var(--ob-text);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+body {
+  background: var(--ob-bg);
+  color: var(--ob-text);
+  font-family: var(--font-sans), system-ui, sans-serif;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Scrollbar - dark theme */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #1e1e35; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #00aff0; }
+
+/* Sidebar active indicator */
+.ob-active-indicator {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 20px;
+  background: #00aff0;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Pulse animation for status dots */
+.ob-pulse {
+  animation: ob-pulse 2s ease-in-out infinite;
+}
+@keyframes ob-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* Status dot */
+.ob-status-active {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #00d97e;
+  display: inline-block;
+  animation: ob-pulse 2s ease-in-out infinite;
+}
+.ob-status-standby {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #888;
+  display: inline-block;
+}
+
+/* Toast notifications */
+.ob-toast-container {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+.ob-toast {
+  pointer-events: auto;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: ob-toast-in 0.3s ease-out;
+  min-width: 280px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+}
+.ob-toast-success {
+  background: #0d2818;
+  border: 1px solid #00d97e40;
+  color: #00d97e;
+}
+.ob-toast-error {
+  background: #2d0d0d;
+  border: 1px solid #f4433640;
+  color: #f44336;
+}
+.ob-toast-info {
+  background: #0d1a2d;
+  border: 1px solid #00aff040;
+  color: #00aff0;
+}
+@keyframes ob-toast-in {
+  from { opacity: 0; transform: translateX(100px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* RainbowKit overrides */
+[data-rk] button {
+  font-family: var(--font-sans), system-ui, sans-serif !important;
 }
